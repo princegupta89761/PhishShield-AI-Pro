@@ -1,0 +1,6 @@
+{
+  "name": "PhishShield AI Pro",
+  "description": "AI-powered multi-layer cyber threat detection platform for URLs, phishing emails, suspicious screenshots, and QR codes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

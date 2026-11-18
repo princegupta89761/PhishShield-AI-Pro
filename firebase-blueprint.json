@@ -1,0 +1,379 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Operational profile and security posture settings for a PhishShield AI Pro user (no raw email PII).",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "admin"]
+        },
+        "securityScore": {
+          "type": "number"
+        },
+        "language": {
+          "type": "string",
+          "enum": ["en", "hi", "mr"]
+        },
+        "theme": {
+          "type": "string",
+          "enum": ["dark", "light"]
+        },
+        "notificationsEnabled": {
+          "type": "boolean"
+        },
+        "weeklyDigest": {
+          "type": "boolean"
+        },
+        "privacyStrictMode": {
+          "type": "boolean"
+        },
+        "totalScans": {
+          "type": "integer"
+        },
+        "threatsDetected": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "displayName", "role", "securityScore", "language", "theme", "createdAt", "updatedAt"]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Isolated PII document storing user email and session metadata.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 254
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "emailVerified", "updatedAt"]
+    },
+    "ScanRecord": {
+      "title": "ScanRecord",
+      "description": "Persisted cybersecurity scan result across URL, Email, Screenshot, or QR analysis.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "scanType": {
+          "type": "string",
+          "enum": ["url", "email", "screenshot", "qr"]
+        },
+        "targetSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "verdict": {
+          "type": "string",
+          "enum": ["Safe", "Suspicious", "Phishing"]
+        },
+        "threatLevel": {
+          "type": "string",
+          "enum": ["Safe", "Low", "Medium", "High", "Critical"]
+        },
+        "confidenceScore": {
+          "type": "number"
+        },
+        "riskScore": {
+          "type": "number"
+        },
+        "explainableSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "triggeredFeatures": {
+          "type": "array"
+        },
+        "recommendations": {
+          "type": "array"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["completed", "archived"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "userId", "scanType", "targetSummary", "verdict", "threatLevel", "confidenceScore", "riskScore", "explainableSummary", "status", "createdAt"]
+    },
+    "ThreatReport": {
+      "title": "ThreatReport",
+      "description": "Metadata record for exported PDF security threat reports.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "scanId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "scanType": {
+          "type": "string",
+          "enum": ["url", "email", "screenshot", "qr"]
+        },
+        "verdict": {
+          "type": "string",
+          "enum": ["Safe", "Suspicious", "Phishing"]
+        },
+        "threatLevel": {
+          "type": "string",
+          "enum": ["Safe", "Low", "Medium", "High", "Critical"]
+        },
+        "confidenceScore": {
+          "type": "number"
+        },
+        "riskScore": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "userId", "scanId", "title", "scanType", "verdict", "threatLevel", "confidenceScore", "riskScore", "createdAt"]
+    },
+    "ThreatIntelItem": {
+      "title": "ThreatIntelItem",
+      "description": "Global phishing pattern and cyber threat intelligence entry.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["Safe", "Low", "Medium", "High", "Critical"]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "pattern": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "mitigation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "title", "category", "severity", "summary", "pattern", "mitigation", "publishedAt"]
+    },
+    "SecurityTip": {
+      "title": "SecurityTip",
+      "description": "Daily cyber hygiene and anti-phishing tip.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "orderIndex": {
+          "type": "integer"
+        }
+      },
+      "required": ["id", "title", "category", "content", "orderIndex"]
+    },
+    "LearningArticle": {
+      "title": "LearningArticle",
+      "description": "Educational cybersecurity article in the Security Learning Hub.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "topic": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "readMinutes": {
+          "type": "integer"
+        },
+        "difficulty": {
+          "type": "string",
+          "enum": ["Beginner", "Intermediate", "Advanced"]
+        }
+      },
+      "required": ["id", "topic", "title", "summary", "content", "readMinutes", "difficulty"]
+    },
+    "AdminMember": {
+      "title": "AdminMember",
+      "description": "Trusted admin roster document.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "grantedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "grantedBy", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User operational profile and settings."
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivateInfo" },
+      "description": "Isolated user PII (email, verification state)."
+    },
+    "/scans/{scanId}": {
+      "schema": { "$ref": "#/entities/ScanRecord" },
+      "description": "Saved threat detection scans owned by users."
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/ThreatReport" },
+      "description": "Generated PDF threat report audit log."
+    },
+    "/threatIntelligence/{intelId}": {
+      "schema": { "$ref": "#/entities/ThreatIntelItem" },
+      "description": "Published phishing threat intelligence items."
+    },
+    "/securityTips/{tipId}": {
+      "schema": { "$ref": "#/entities/SecurityTip" },
+      "description": "Daily security tips."
+    },
+    "/learningArticles/{articleId}": {
+      "schema": { "$ref": "#/entities/LearningArticle" },
+      "description": "Cybersecurity learning articles."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminMember" },
+      "description": "Admin role membership lookup."
+    }
+  }
+}
